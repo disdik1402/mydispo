@@ -408,3 +408,413 @@
 
 </body>
 </html>
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Form Disposisi Surat</title>
+
+  <!-- Google Fonts -->
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600&display=swap" rel="stylesheet">
+
+  <style>
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    body {
+      font-family: 'Poppins', sans-serif;
+      position: relative;
+      min-height: 100vh;
+      overflow-x: hidden;
+      background-color: #f3f4f6; 
+    }
+
+    /* Slideshow */
+    .slideshow {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100vw;
+      height: 100vh;
+      z-index: -2;
+      overflow: hidden;
+    }
+
+    .slide {
+      position: absolute;
+      width: 100%;
+      height: 100%;
+      background-size: cover;
+      background-position: center;
+      opacity: 0;
+      transition: opacity 1s ease-in-out;
+      filter: brightness(0.7);
+    }
+
+    .slide.active {
+      opacity: 1;
+      z-index: 1;
+    }
+
+    .overlay {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100vw;
+      height: 100vh;
+      background: rgba(0, 0, 0, 0.5);
+      z-index: -1;
+    }
+
+    /* Running Text */
+    .running-text {
+      position: fixed;
+      bottom: 0;
+      width: 100%;
+      background: #0d1b2a;
+      color: white;
+      font-size: 14px;
+      white-space: nowrap;
+      overflow: hidden;
+      z-index: 10;
+    }
+
+    .marquee {
+      display: block;
+      padding: 10px 0;
+      animation: marquee 20s linear infinite;
+    }
+
+    @keyframes marquee {
+      from { transform: translateX(100%); }
+      to { transform: translateX(-100%); }
+    }
+
+    /* Form Container */
+    .form-container {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      min-height: 100vh;
+      padding: 20px;
+      z-index: 10;
+      position: relative;
+    }
+
+    .glass-card {
+      background: rgba(255, 255, 255, 0.2);
+      backdrop-filter: blur(15px);
+      border-radius: 20px;
+      padding: 30px;
+      max-width: 700px;
+      width: 100%;
+      box-shadow: 0 8px 32px rgba(0, 0, 0, 0.2);
+      transition: all 0.3s ease;
+    }
+
+    .glass-card:hover {
+      transform: translateY(-5px);
+    }
+
+    h1 {
+      text-align: center;
+      font-weight: 600;
+      color: #ffffffcc;
+      margin-bottom: 20px;
+    }
+
+    label {
+      display: block;
+      margin-bottom: 6px;
+      font-weight: 500;
+      color: #fff;
+    }
+
+    input[type="text"], input[type="date"], select {
+      width: 100%;
+      padding: 12px;
+      border: none;
+      border-radius: 10px;
+      margin-bottom: 16px;
+      font-size: 14px;
+      background: rgba(255, 255, 255, 0.9);
+      transition: all 0.3s ease;
+    }
+
+    input:focus, select:focus {
+      outline: none;
+      background: #fff;
+      box-shadow: 0 0 0 3px rgba(255, 255, 255, 0.4);
+    }
+
+    .grid {
+      display: grid;
+      gap: 16px;
+    }
+
+    .grid-cols-1 {
+      grid-template-columns: 1fr;
+    }
+
+    .grid-cols-2 {
+      grid-template-columns: repeat(2, 1fr);
+    }
+
+    .button-group {
+      display: flex;
+      justify-content: space-between;
+      gap: 10px;
+      margin-top: 20px;
+    }
+
+    button {
+      flex: 1;
+      padding: 12px;
+      border: none;
+      border-radius: 10px;
+      font-size: 16px;
+      font-weight: 600;
+      cursor: pointer;
+      transition: all 0.3s ease;
+      background: linear-gradient(to right, #6a11cb, #2575fc);
+      color: white;
+    }
+
+    button:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 6px 16px rgba(0, 0, 0, 0.2);
+    }
+
+    .feedback {
+      display: none;
+      margin-top: 16px;
+      padding: 12px;
+      border-radius: 8px;
+      font-weight: 500;
+      text-align: center;
+    }
+
+    .success {
+      background-color: #dcfce7;
+      color: #166534;
+    }
+
+    .error {
+      background-color: #fee2e2;
+      color: #991b1b;
+    }
+
+    .spinner {
+      display: none;
+      border: 4px solid rgba(255, 255, 255, 0.3);
+      border-top: 4px solid #ffffff;
+      border-radius: 50%;
+      width: 24px;
+      height: 24px;
+      animation: spin 1s linear infinite;
+      margin-left: auto;
+      margin-right: auto;
+    }
+
+    @keyframes spin {
+      to { transform: rotate(360deg); }
+    }
+
+    footer {
+      text-align: center;
+      font-size: 14px;
+      color: #eee;
+      margin-top: 20px;
+    }
+
+    @media (max-width: 600px) {
+      .button-group {
+        flex-direction: column;
+      }
+
+      .grid-cols-2 {
+        grid-template-columns: 1fr;
+      }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- Background Slideshow -->
+  <div class="slideshow" id="slideshow">
+    <img src="https://picsum.photos/id/292/800/600"  alt="Slide 1" class="slide active" loading="lazy">
+    <img src="https://picsum.photos/id/397/800/600"  alt="Slide 2" class="slide" loading="lazy">
+    <img src="https://picsum.photos/id/489/800/600"  alt="Slide 3" class="slide" loading="lazy">
+  </div>
+
+  <!-- Overlay -->
+  <div class="overlay"></div>
+
+  <!-- Running Text -->
+  <div class="running-text">
+    <div class="marquee">
+      PEMERINTAH KABUPATEN PASURUAN &nbsp;&nbsp;|&nbsp;&nbsp; DINAS PENDIDIKAN DAN KEBUDAYAAN &nbsp;&nbsp;|&nbsp;&nbsp; Kompleks Perkantoran Pemerintah Kabupaten Pasuruan &nbsp;&nbsp;|&nbsp;&nbsp; Gedung Wak Muqidin, Jalan Raya Raci Km.9, Bangil, Pasuruan 67153 &nbsp;&nbsp;|&nbsp;&nbsp; Telepon (0343) 5615545 &nbsp;&nbsp;|&nbsp;&nbsp; Website dispendikbud.pasuruankab.go.id
+    </div>
+  </div>
+
+  <!-- Form Konten -->
+  <div class="form-container">
+    <div class="glass-card">
+      <h1>Form Disposisi Surat</h1>
+      <form id="disposisiForm">
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+          <div>
+            <label for="surat-dari">SURAT DARI:</label>
+            <input type="text" id="surat-dari" name="surat-dari" placeholder="Nama Pengirim Surat" required />
+          </div>
+          <div>
+            <label for="tanggal-surat">TANGGAL SURAT:</label>
+            <input type="date" id="tanggal-surat" name="tanggal-surat" required />
+          </div>
+          <div>
+            <label for="nomor-surat">NOMOR SURAT:</label>
+            <input type="text" id="nomor-surat" name="nomor-surat" placeholder="Nomor Surat Resmi" required />
+          </div>
+          <div>
+            <label for="diterima-tanggal">DITERIMA TANGGAL:</label>
+            <input type="date" id="diterima-tanggal" name="diterima-tanggal" required />
+          </div>
+          <div>
+            <label for="nomor-agenda">NOMOR AGENDA:</label>
+            <input type="text" id="nomor-agenda" name="nomor-agenda" placeholder="Nomor Agenda Surat" required />
+          </div>
+          <div>
+            <label for="hal">HAL:</label>
+            <input type="text" id="hal" name="hal" placeholder="Perihal Surat" required />
+          </div>
+        </div>
+        <div class="grid grid-cols-1 gap-4 mt-4">
+          <div>
+            <label for="disposisi-kabid">TANGGAL DISPOSISI KABID:</label>
+            <input type="date" id="disposisi-kabid" name="disposisi-kabid" required />
+          </div>
+          <div>
+            <label for="disposisi-kasi">TANGGAL DISPOSISI KASI/ANALIS:</label>
+            <input type="date" id="disposisi-kasi" name="disposisi-kasi" required />
+          </div>
+          <div>
+            <label for="petugas">PETUGAS/PEMROSES:</label>
+            <select id="petugas" name="petugas" required>
+              <option value="" disabled selected>Pilih Petugas</option>
+              <option value="BETTY">BETTY</option>
+              <option value="SUYONO">SUYONO</option>
+              <option value="WASIYANTO">WASIYANTO</option>
+              <option value="DIAN">DIAN</option>
+              <option value="MERPIANA">MERPIANA</option>
+              <option value="RIA">RIA</option>
+              <option value="ROHMAT">ROHMAT</option>
+              <option value="RIZKY">RIZKY</option>
+              <option value="RIO">RIO</option>
+              <option value="FAISOL">FAISOL</option>
+              <option value="MAYANG">MAYANG</option>
+            </select>
+          </div>
+        </div>
+
+        <div class="button-group">
+          <button type="submit">Kirim</button>
+          <button type="button" onclick="alert('Fitur Edit belum tersedia')">Edit</button>
+          <button type="button" onclick="alert('Fitur Cari belum tersedia')">Cari</button>
+        </div>
+
+        <!-- Feedback -->
+        <div id="feedback" class="feedback"></div>
+
+        <!-- Loading Spinner -->
+        <div id="loading" class="spinner"></div>
+      </form>
+      <footer>
+        Created by @hidayatrahmat
+      </footer>
+    </div>
+  </div>
+
+  <!-- JavaScript untuk slideshow -->
+  <script>
+    const slides = document.querySelectorAll('.slide');
+    let currentSlide = 0;
+
+    function showNextSlide() {
+      slides[currentSlide].classList.remove('active');
+      currentSlide = (currentSlide + 1) % slides.length;
+      slides[currentSlide].classList.add('active');
+    }
+
+    setInterval(showNextSlide, 5000);
+
+    slides.forEach((slide, index) => {
+      if (index !== 0) slide.style.opacity = 0;
+      else slide.classList.add('active');
+    });
+  </script>
+
+  <!-- JavaScript untuk form handling -->
+  <script>
+    const form = document.getElementById('disposisiForm');
+    const feedback = document.getElementById('feedback');
+    const loading = document.getElementById('loading');
+
+    form.addEventListener('submit', function (e) {
+      e.preventDefault();
+
+      // Sembunyikan feedback lama
+      feedback.style.display = 'none';
+      feedback.classList.remove('success', 'error');
+      loading.style.display = 'block';
+
+      const formData = {
+        "surat-dari": document.getElementById('surat-dari').value,
+        "tanggal-surat": document.getElementById('tanggal-surat').value,
+        "nomor-surat": document.getElementById('nomor-surat').value,
+        "diterima-tanggal": document.getElementById('diterima-tanggal').value,
+        "nomor-agenda": document.getElementById('nomor-agenda').value,
+        "hal": document.getElementById('hal').value,
+        "disposisi-kabid": document.getElementById('disposisi-kabid').value,
+        "disposisi-kasi": document.getElementById('disposisi-kasi').value,
+        "petugas": document.getElementById('petugas').value
+      };
+
+      fetch('https://script.google.com/macros/s/SCRIPT_ID/exec',  {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json'
+        },
+        body: JSON.stringify(formData)
+      })
+        .then(response => response.json())
+        .then(data => {
+          loading.style.display = 'none';
+
+          if (data.status === 'success') {
+            feedback.textContent = '✅ Data berhasil dikirim!';
+            feedback.classList.add('success');
+            feedback.style.display = 'block';
+            form.reset();
+            setTimeout(() => feedback.style.display = 'none', 3000);
+          } else {
+            feedback.textContent = '❌ Gagal menyimpan data: ' + (data.message || 'Silakan coba lagi.');
+            feedback.classList.add('error');
+            feedback.style.display = 'block';
+          }
+        })
+        .catch(error => {
+          loading.style.display = 'none';
+          feedback.textContent = '⚠️ Kesalahan jaringan. Silakan cek koneksi internet Anda.';
+          feedback.classList.add('error');
+          feedback.style.display = 'block';
+          console.error('Error:', error);
+        });
+    });
+  </script>
+
+</body>
+</html>
