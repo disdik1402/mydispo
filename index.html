@@ -2,7 +2,7 @@
 <html lang="id">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
     <title>Form Disposisi - Disdikbud Kab. Pasuruan</title>
     <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
@@ -31,6 +31,10 @@
         }
     </script>
     <style>
+        * {
+            -webkit-tap-highlight-color: transparent;
+        }
+        
         body {
             font-family: 'Poppins', sans-serif;
             overflow-x: hidden;
@@ -40,6 +44,8 @@
             flex-direction: column;
             align-items: center;
             justify-content: center;
+            padding: 15px;
+            touch-action: manipulation;
         }
         
         .background-slideshow {
@@ -78,12 +84,15 @@
             border-radius: 16px;
             width: 95%;
             max-width: 900px;
-        } 
+            margin: 20px auto;
+        }
+        
         .form-input {
             background: rgba(255, 255, 255, 0.1);
             border: 1px solid rgba(255, 255, 255, 0.3);
             transition: all 0.3s ease;
             color: white;
+            font-size: 16px;
         }
         
         .form-input:focus {
@@ -97,6 +106,7 @@
             background: linear-gradient(135deg, #1d4ed8, #0e7490);
             transition: all 0.3s ease;
             cursor: pointer;
+            font-size: 18px;
         }
         
         .submit-btn:hover {
@@ -114,15 +124,17 @@
         
         .chat-container {
             position: fixed;
-            bottom: 30px;
-            right: 30px;
+            bottom: 20px;
+            right: 20px;
             z-index: 1000;
             transition: all 0.3s ease;
         }
         
         .chat-box {
-            width: 350px;
-            height: 450px;
+            width: 90vw;
+            max-width: 350px;
+            height: 70vh;
+            max-height: 450px;
             background: rgba(15, 23, 42, 0.95);
             border-radius: 20px;
             overflow: hidden;
@@ -152,21 +164,21 @@
         
         .chat-messages {
             flex: 1;
-            padding: 20px;
+            padding: 15px;
             overflow-y: auto;
             display: flex;
             flex-direction: column;
-            gap: 15px;
+            gap: 12px;
             z-index: 1001;
         }
         
         .message {
-            max-width: 80%;
+            max-width: 90%;
             padding: 12px 16px;
             border-radius: 18px;
             animation: fadeIn 0.3s ease;
             color: #f1f5f9;
-            font-size: 14px;
+            font-size: 15px;
             line-height: 1.5;
         }
         
@@ -188,16 +200,16 @@
         }
         
         .chat-input {
-            padding: 15px;
+            padding: 12px;
             background: rgba(30, 41, 59, 0.8);
             display: flex;
-            gap: 10px;
+            gap: 8px;
             z-index: 1001;
         }
         
         .chat-btn {
-            width: 60px;
-            height: 60px;
+            width: 55px;
+            height: 55px;
             border-radius: 50%;
             background: linear-gradient(135deg, #1d4ed8, #0e7490);
             display: flex;
@@ -216,7 +228,7 @@
         }
         
         .chat-btn i {
-            font-size: 24px;
+            font-size: 22px;
         }
         
         .disposition-select {
@@ -225,11 +237,13 @@
             border-radius: 10px;
             border: 1px solid rgba(255, 255, 255, 0.2);
             cursor: pointer;
+            font-size: 16px;
         }
         
         .disposition-select option {
             background: rgba(30, 41, 59, 0.9);
-            padding: 10px;
+            padding: 12px;
+            font-size: 15px;
         }
         
         .notification {
@@ -244,6 +258,7 @@
             transform: translateX(120%);
             transition: transform 0.4s ease;
             z-index: 2000;
+            max-width: 90%;
         }
         
         .notification.show {
@@ -253,8 +268,8 @@
         .ai-helper {
             background: rgba(59, 130, 246, 0.15);
             border-radius: 12px;
-            padding: 15px;
-            margin-top: 20px;
+            padding: 12px;
+            margin-top: 15px;
             border-left: 4px solid #3b82f6;
         }
         
@@ -278,19 +293,30 @@
         input, select, textarea {
             z-index: 2;
             position: relative;
+            min-height: 50px;
+            padding: 12px 15px !important;
         }
         
         input[type="date"]::-webkit-calendar-picker-indicator {
             filter: invert(1);
             cursor: pointer;
+            padding: 0;
+            margin: 0;
+            width: 25px;
+            height: 25px;
+        }
+        
+        input[type="date"] {
+            padding-right: 40px !important;
         }
         
         select {
             appearance: none;
             background-image: url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' fill='none' viewBox='0 0 20 20'%3e%3cpath stroke='%23ffffff' stroke-linecap='round' stroke-linejoin='round' stroke-width='1.5' d='M6 8l4 4 4-4'/%3e%3c/svg%3e");
-            background-position: right 0.75rem center;
+            background-position: right 15px center;
             background-repeat: no-repeat;
-            background-size: 1.5em 1.5em;
+            background-size: 1.2em 1.2em;
+            padding-right: 40px !important;
         }
         
         .chat-overlay {
@@ -315,39 +341,17 @@
             opacity: 0.8;
         }
         
+        /* Perbaikan khusus untuk mobile */
         @media (max-width: 768px) {
+            body {
+                padding: 10px;
+                justify-content: flex-start;
+            }
+            
             .glass-container {
                 padding: 20px;
-                margin-top: 20px;
-                margin-bottom: 20px;
-            }
-            
-            .chat-box {
-                width: 300px;
-                height: 400px;
-            }
-            
-            .chat-btn {
-                width: 50px;
-                height: 50px;
-            }
-        }
-        
-        @media (max-width: 480px) {
-            .grid-cols-1 {
-                grid-template-columns: 1fr;
-            }
-            
-            .chat-box {
-                width: 280px;
-                height: 380px;
-                right: 10px;
-                bottom: 10px;
-            }
-            
-            .chat-container {
-                bottom: 20px;
-                right: 20px;
+                margin: 15px 0;
+                width: 100%;
             }
             
             h1 {
@@ -357,6 +361,106 @@
             h2 {
                 font-size: 1.2rem;
             }
+            
+            .grid-cols-1 {
+                grid-template-columns: 1fr;
+            }
+            
+            .input-group {
+                padding-top: 12px;
+            }
+            
+            .form-input, .disposition-select {
+                font-size: 16px;
+                padding: 14px !important;
+            }
+            
+            textarea {
+                min-height: 120px;
+            }
+            
+            .submit-btn {
+                padding: 16px !important;
+                font-size: 17px;
+            }
+            
+            .chat-btn {
+                width: 50px;
+                height: 50px;
+                bottom: 15px;
+                right: 15px;
+            }
+            
+            .chat-header {
+                padding: 12px 15px;
+            }
+            
+            .chat-messages {
+                padding: 12px;
+            }
+            
+            .message {
+                font-size: 14px;
+                padding: 10px 14px;
+            }
+            
+            .chat-input input {
+                font-size: 15px;
+                padding: 10px 12px !important;
+            }
+        }
+        
+        @media (max-width: 480px) {
+            .glass-container {
+                padding: 15px;
+            }
+            
+            h1 {
+                font-size: 1.6rem;
+            }
+            
+            h2 {
+                font-size: 1.1rem;
+            }
+            
+            .header-logo {
+                transform: scale(0.9);
+            }
+            
+            .form-input, .disposition-select {
+                font-size: 15px;
+                padding: 12px !important;
+            }
+            
+            .submit-btn {
+                font-size: 16px;
+            }
+            
+            .chat-btn {
+                width: 45px;
+                height: 45px;
+            }
+            
+            .chat-btn i {
+                font-size: 20px;
+            }
+            
+            .notification {
+                padding: 12px 20px;
+                font-size: 14px;
+            }
+        }
+        
+        /* Perbaikan untuk input tanggal di iOS */
+        input[type="date"] {
+            -webkit-appearance: none;
+            min-height: 50px;
+        }
+        
+        /* Memastikan semua elemen bisa diklik dengan mudah di mobile */
+        button, input, select, textarea, .chat-btn, .quick-help {
+            touch-action: manipulation;
+            -webkit-tap-highlight-color: rgba(0,0,0,0);
         }
     </style>
 </head>
@@ -382,7 +486,6 @@
         <div class="slide" style="background-image: url('https://images.unsplash.com/photo-1505118380757-91f5f5632de0?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=2026&q=80')"></div>
     </div>
 
-    
     <!-- Overlay for chat -->
     <div id="chatOverlay" class="chat-overlay"></div>
     
@@ -395,76 +498,76 @@
     </div>
     
     <!-- Main Form Container -->
-    <div class="glass-container p-6 sm:p-8 md:p-10">
+    <div class="glass-container p-4 sm:p-6 md:p-8">
         <!-- Header -->
-        <div class="text-center mb-8">
-            <div class="flex justify-center mb-4">
+        <div class="text-center mb-6 sm:mb-8">
+            <div class="flex justify-center mb-3 sm:mb-4">
                 <div class="header-logo bg-white p-3 rounded-full shadow-lg">
-                    <svg xmlns="http://www.w3.org/2000/svg" class="h-14 w-14 text-blue-600" viewBox="0 0 20 20" fill="currentColor">
+                    <svg xmlns="http://www.w3.org/2000/svg" class="h-12 w-12 sm:h-14 sm:w-14 text-blue-600" viewBox="0 0 20 20" fill="currentColor">
                         <path d="M10.394 2.08a1 1 0 00-.788 0l-7 3a1 1 0 000 1.84L5.25 8.051a.999.999 0 01.356-.257l4-1.714a1 1 0 11.788 1.838L7.667 9.088l1.94.831a1 1 0 00.787 0l7-3a1 1 0 000-1.838l-7-3zM3.31 9.397L5 10.12v4.102a8.969 8.969 0 00-1.05-.174 1 1 0 01-.89-.89 11.115 11.115 0 01.25-3.762zM9.3 16.573A9.026 9.026 0 007 14.935v-3.957l1.818.78a3 3 0 002.364 0l5.508-2.361a11.026 11.026 0 01.25 3.762 1 1 0 01-.89.89 8.968 8.968 0 00-5.35 2.524 1 1 0 01-1.4 0zM6 18a1 1 0 001-1v-2.065a8.935 8.935 0 00-2-.712V17a1 1 0 001 1z" />
                     </svg>
                 </div>
             </div>
-            <h1 class="text-3xl sm:text-4xl font-bold text-white">FORM DISPOSISI</h1>
-            <h2 class="text-xl sm:text-2xl font-semibold text-white mt-2">DINAS PENDIDIKAN DAN KEBUDAYAAN KAB. PASURUAN</h2>
-            <div class="w-24 h-1 bg-blue-400 mx-auto mt-4 rounded-full"></div>
+            <h1 class="text-2xl sm:text-3xl md:text-4xl font-bold text-white">FORM DISPOSISI</h1>
+            <h2 class="text-lg sm:text-xl md:text-2xl font-semibold text-white mt-1 sm:mt-2">DINAS PENDIDIKAN DAN KEBUDAYAAN KAB. PASURUAN</h2>
+            <div class="w-20 h-1 bg-blue-400 mx-auto mt-3 sm:mt-4 rounded-full"></div>
         </div>
         
         <!-- AI Helper -->
         <div class="ai-helper">
             <div class="flex items-start">
                 <div class="bg-blue-500 rounded-full p-2 mr-3">
-                    <i class="fas fa-robot text-white text-lg"></i>
+                    <i class="fas fa-robot text-white text-base sm:text-lg"></i>
                 </div>
                 <div class="text-white">
-                    <p class="font-medium">Asisten Digital Disdikbud</p>
-                    <p class="text-sm opacity-80 mt-1">Saya siap membantu Anda mengisi form disposisi. Klik tombol chat di pojok kanan bawah untuk bertanya!</p>
+                    <p class="font-medium text-base sm:text-lg">Asisten Digital Disdikbud</p>
+                    <p class="text-xs sm:text-sm opacity-80 mt-1">Saya siap membantu Anda mengisi form disposisi. Klik tombol chat di pojok kanan bawah untuk bertanya!</p>
                 </div>
             </div>
         </div>
         
         <!-- Form Section -->
-        <form id="dispositionForm" class="space-y-6 mt-6">
-            <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+        <form id="dispositionForm" class="space-y-4 sm:space-y-6 mt-4 sm:mt-6">
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-4 sm:gap-6">
                 <!-- Left Column -->
-                <div class="space-y-6">
+                <div class="space-y-4 sm:space-y-6">
                     <!-- Surat dari -->
                     <div class="input-group">
                         <label class="floating-label">Surat Dari</label>
-                        <input type="text" name="sender" required class="form-input w-full px-4 py-3 rounded-lg placeholder-blue-100 focus:ring-2 focus:ring-blue-300">
+                        <input type="text" name="sender" required class="form-input w-full rounded-lg placeholder-blue-100 focus:ring-2 focus:ring-blue-300">
                     </div>
                     
                     <!-- Nomor Surat -->
                     <div class="input-group">
                         <label class="floating-label">Nomor Surat</label>
-                        <input type="text" name="letter_number" required class="form-input w-full px-4 py-3 rounded-lg placeholder-blue-100 focus:ring-2 focus:ring-blue-300">
+                        <input type="text" name="letter_number" required class="form-input w-full rounded-lg placeholder-blue-100 focus:ring-2 focus:ring-blue-300">
                     </div>
                     
                     <!-- Tanggal Surat -->
                     <div class="input-group">
                         <label class="floating-label">Tanggal Surat</label>
-                        <input type="date" name="letter_date" required class="form-input w-full px-4 py-3 rounded-lg placeholder-blue-100 focus:ring-2 focus:ring-blue-300">
+                        <input type="date" name="letter_date" required class="form-input w-full rounded-lg placeholder-blue-100 focus:ring-2 focus:ring-blue-300">
                     </div>
                     
                     <!-- Tanggal Diterima -->
                     <div class="input-group">
                         <label class="floating-label">Tanggal Diterima</label>
-                        <input type="date" name="received_date" required class="form-input w-full px-4 py-3 rounded-lg placeholder-blue-100 focus:ring-2 focus:ring-blue-300">
+                        <input type="date" name="received_date" required class="form-input w-full rounded-lg placeholder-blue-100 focus:ring-2 focus:ring-blue-300">
                     </div>
                 </div>
                 
                 <!-- Right Column -->
-                <div class="space-y-6">
+                <div class="space-y-4 sm:space-y-6">
                     <!-- Perihal -->
                     <div class="input-group">
                         <label class="floating-label">Perihal</label>
-                        <input type="text" name="subject" required class="form-input w-full px-4 py-3 rounded-lg placeholder-blue-100 focus:ring-2 focus:ring-blue-300">
+                        <input type="text" name="subject" required class="form-input w-full rounded-lg placeholder-blue-100 focus:ring-2 focus:ring-blue-300">
                     </div>
                     
                     <!-- Disposisi ke -->
                     <div class="input-group">
                         <label class="floating-label">Disposisi ke</label>
-                        <select name="disposition_to" required class="disposition-select w-full px-4 py-3 rounded-lg bg-gray-800 bg-opacity-40 focus:ring-2 focus:ring-blue-300">
+                        <select name="disposition_to" required class="disposition-select w-full rounded-lg bg-gray-800 bg-opacity-40 focus:ring-2 focus:ring-blue-300">
                             <option value="">Pilih Bidang</option>
                             <option value="Bidang Umum dan Kepegawaian">Bidang Umum dan Kepegawaian</option>
                             <option value="Bidang Pembinaan Ketenagaan">Bidang Pembinaan Ketenagaan</option>
@@ -479,13 +582,13 @@
                     <!-- Tanggal Disposisi -->
                     <div class="input-group">
                         <label class="floating-label">Tanggal Disposisi</label>
-                        <input type="date" name="disposition_date" required class="form-input w-full px-4 py-3 rounded-lg placeholder-blue-100 focus:ring-2 focus:ring-blue-300">
+                        <input type="date" name="disposition_date" required class="form-input w-full rounded-lg placeholder-blue-100 focus:ring-2 focus:ring-blue-300">
                     </div>
                     
                     <!-- Prioritas -->
                     <div class="input-group">
                         <label class="floating-label">Prioritas</label>
-                        <select name="priority" required class="disposition-select w-full px-4 py-3 rounded-lg bg-gray-800 bg-opacity-40 focus:ring-2 focus:ring-blue-300">
+                        <select name="priority" required class="disposition-select w-full rounded-lg bg-gray-800 bg-opacity-40 focus:ring-2 focus:ring-blue-300">
                             <option value="">Pilih Prioritas</option>
                             <option value="Biasa">Biasa</option>
                             <option value="Segera">Segera</option>
@@ -498,11 +601,11 @@
             <!-- Catatan Disposisi -->
             <div class="input-group">
                 <label class="floating-label">Catatan Disposisi</label>
-                <textarea name="notes" rows="4" required class="form-input w-full px-4 py-3 rounded-lg placeholder-blue-100 focus:ring-2 focus:ring-blue-300"></textarea>
+                <textarea name="notes" rows="4" required class="form-input w-full rounded-lg placeholder-blue-100 focus:ring-2 focus:ring-blue-300"></textarea>
             </div>
             
             <!-- Submit Button -->
-            <div class="pt-4">
+            <div class="pt-3 sm:pt-4">
                 <button type="submit" class="submit-btn w-full py-3 px-6 text-white font-bold rounded-lg shadow-lg transform transition-all duration-300 hover:shadow-xl">
                     <i class="fas fa-paper-plane mr-2"></i> KIRIM DISPOSISI
                 </button>
@@ -510,11 +613,11 @@
         </form>
         
         <!-- Footer -->
-        <div class="mt-8 pt-6 border-t border-blue-300 border-opacity-30">
-            <p class="text-center text-blue-100 text-sm">
+        <div class="mt-6 sm:mt-8 pt-5 border-t border-blue-300 border-opacity-30">
+            <p class="text-center text-blue-100 text-xs sm:text-sm">
                 © 2023 Dinas Pendidikan dan Kebudayaan Kab. Pasuruan | Sistem Informasi Disposisi Digital
             </p>
-            <p class="footer-credit text-blue-100">
+            <p class="footer-credit text-blue-100 text-xs sm:text-sm">
                 © @hidayatrahmat
             </p>
         </div>
@@ -548,8 +651,8 @@
                 </div>
             </div>
             <div class="chat-input">
-                <input type="text" id="chatInput" placeholder="Ketik pertanyaan Anda..." class="form-input flex-1 px-4 py-2 rounded-lg">
-                <button id="sendMessage" class="submit-btn px-4 py-2 rounded-lg">
+                <input type="text" id="chatInput" placeholder="Ketik pertanyaan Anda..." class="form-input flex-1 rounded-lg">
+                <button id="sendMessage" class="submit-btn px-3 py-1 sm:px-4 sm:py-2 rounded-lg">
                     <i class="fas fa-paper-plane"></i>
                 </button>
             </div>
@@ -696,6 +799,18 @@
                     }, 1000);
                 });
             });
+            
+            // Perbaikan khusus untuk input tanggal di iOS
+            if (/iPad|iPhone|iPod/.test(navigator.userAgent)) {
+                document.querySelectorAll('input[type="date"]').forEach(input => {
+                    input.addEventListener('focus', function() {
+                        this.type = 'text';
+                        setTimeout(() => {
+                            this.type = 'date';
+                        }, 100);
+                    });
+                });
+            }
         });
     </script>
 </body>
