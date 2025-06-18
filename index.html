@@ -13,54 +13,59 @@
       box-sizing: border-box;
       margin: 0;
       padding: 0;
+    }
+
+    html, body {
       font-family: 'Poppins', sans-serif;
-    }
-
-    body {
+      height: 100%;
+      overflow-x: hidden;
       position: relative;
-      min-height: 100vh;
-      overflow: hidden;
-      color: #333; 
     }
 
-    /* Background Slideshow */
-    .background {
+    /* Slideshow */
+    .slideshow {
       position: fixed;
       top: 0;
       left: 0;
       width: 100vw;
       height: 100vh;
+      z-index: -2;
+      overflow: hidden;
+    }
+
+    .slide {
+      position: absolute;
+      width: 100%;
+      height: 100%;
       background-size: cover;
       background-position: center;
-      z-index: -2;
-      animation: fadeSlide 15s infinite;
-      background-image: url('https://picsum.photos/id/292/1920/1080'); 
+      opacity: 0;
+      transition: opacity 1s ease-in-out;
+      filter: brightness(0.7);
     }
 
-    @keyframes fadeSlide {
-      0% { opacity: 1; }
-      33% { background-image: url('https://picsum.photos/id/397/1920/1080');  }
-      66% { background-image: url('https://picsum.photos/id/489/1920/1080');  }
-      100% { opacity: 1; }
+    .slide.active {
+      opacity: 1;
+      z-index: 1;
     }
 
-    /* Overlay untuk latar belakang gelap */
+    /* Overlay */
     .overlay {
       position: fixed;
       top: 0;
       left: 0;
-      width: 100%;
-      height: 100%;
-      background: rgba(0, 0, 0, 0.4);
+      width: 100vw;
+      height: 100vh;
+      background: rgba(0, 0, 0, 0.5);
       z-index: -1;
     }
 
-    /* Running Text Instansi */
+    /* Running Text */
     .running-text {
       position: fixed;
       bottom: 0;
       width: 100%;
-      background: #0d1b2a;
+      background: #0d1b2a; 
       color: white;
       font-size: 14px;
       white-space: nowrap;
@@ -79,13 +84,15 @@
       to { transform: translateX(-100%); }
     }
 
-    /* Container Form */
+    /* Form Container */
     .form-container {
       display: flex;
       align-items: center;
       justify-content: center;
       min-height: 100vh;
       padding: 20px;
+      z-index: 10;
+      position: relative;
     }
 
     .glass-card {
@@ -192,8 +199,14 @@
 </head>
 <body>
 
-  <!-- Background Slideshow -->
-  <div class="background"></div>
+  <!-- Background Slideshow dengan img -->
+  <div class="slideshow" id="slideshow">
+    <img src="https://picsum.photos/id/292/800/600"  alt="Slide 1" class="slide active" loading="lazy">
+    <img src="https://picsum.photos/id/397/800/600"  alt="Slide 2" class="slide" loading="lazy">
+    <img src="https://picsum.photos/id/489/800/600"  alt="Slide 3" class="slide" loading="lazy">
+  </div>
+
+  <!-- Overlay -->
   <div class="overlay"></div>
 
   <!-- Running Text -->
@@ -210,41 +223,41 @@
       <form id="disposisiForm">
         <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
           <div>
-            <label for="surat-dari">SURAT DARI:</label>
+            <label for="surat-dari">SURAT DARI :</label>
             <input type="text" id="surat-dari" name="surat-dari" placeholder="Nama Pengirim Surat" required />
           </div>
           <div>
-            <label for="tanggal-surat">TANGGAL SURAT:</label>
-            <input type="date" id="tanggal-surat" name="tanggal-surat" required />
+            <label for="tanggal-surat">DITERIMA TANGGAL :</label>
+            <input type="date" id="diterima-tanggal" name="diterima-tanggal" required />
           </div>
           <div>
-            <label for="nomor-surat">NOMOR SURAT:</label>
+            <label for="nomor-surat">NOMOR SURAT :</label>
             <input type="text" id="nomor-surat" name="nomor-surat" placeholder="Nomor Surat Resmi" required />
           </div>
           <div>
-            <label for="tgl-surat">TGL.SURAT:</label>
+            <label for="tgl-surat">TGL.SURAT :</label>
             <input type="date" id="tgl-surat" name="tgl-surat" required />
           </div>
           <div>
-            <label for="nomor-agenda">NOMOR AGENDA:</label>
+            <label for="nomor-agenda">NOMOR AGENDA :</label>
             <input type="text" id="nomor-agenda" name="nomor-agenda" placeholder="Nomor Agenda Surat" required />
           </div>
           <div>
-            <label for="hal">HAL:</label>
+            <label for="hal">HAL :</label>
             <input type="text" id="hal" name="hal" placeholder="Perihal Surat" required />
           </div>
         </div>
         <div class="grid grid-cols-1 gap-4 mt-4">
           <div>
-            <label for="disposisi-kabid">TANGGAL DISPOSISI KABID:</label>
+            <label for="disposisi-kabid">TANGGAL DISPOSISI KABID :</label>
             <input type="date" id="disposisi-kabid" name="disposisi-kabid" required />
           </div>
           <div>
-            <label for="disposisi-kasi">TANGGAL DISPOSISI KASI/ANALIS:</label>
+            <label for="disposisi-kasi">TANGGAL DISPOSISI KASI/ANALIS :</label>
             <input type="date" id="disposisi-kasi" name="disposisi-kasi" required />
           </div>
           <div>
-            <label for="petugas">PETUGAS/PEMROSES:</label>
+            <label for="petugas">PETUGAS/PEMROSES :</label>
             <select id="petugas" name="petugas" required>
               <option value="" disabled selected>Pilih Petugas</option>
               <option value="BETTY">BETTY</option>
@@ -272,6 +285,35 @@
       </footer>
     </div>
   </div>
+
+  <!-- JavaScript untuk slideshow -->
+  <script>
+    const slides = document.querySelectorAll('.slide');
+    let currentSlide = 0;
+
+    function showNextSlide() {
+      // Hilangkan aktif dari slide sekarang
+      slides[currentSlide].classList.remove('active');
+
+      // Geser ke slide berikutnya
+      currentSlide = (currentSlide + 1) % slides.length;
+
+      // Tambahkan kelas aktif
+      slides[currentSlide].classList.add('active');
+    }
+
+    // Ganti slide setiap 5 detik
+    setInterval(showNextSlide, 5000);
+
+    // Awalnya, hanya satu slide aktif
+    slides.forEach((slide, index) => {
+      if (index !== 0) {
+        slide.style.opacity = 0;
+      } else {
+        slide.classList.add('active');
+      }
+    });
+  </script>
 
   <!-- JavaScript untuk Fetch API -->
   <script>
@@ -308,7 +350,7 @@
         })
         .catch(error => {
           console.error('Error:', error);
-          alert('Terjadi kesalahan saat mengirim data.');
+          alert('Ada kesalahan jaringan. Silakan coba lagi.');
         });
     });
   </script>
