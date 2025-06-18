@@ -1,0 +1,16 @@
+{
+  "name": "mydispo",
+  "version": "1.0.0",
+  "description": "Form Disposisi Surat - Static HTML Application",
+  "main": "index.html",
+  "scripts": {
+    "build": "echo 'Static site - no build required' && exit 0",
+    "dev": "python3 -m http.server 3000",
+    "start": "python3 -m http.server 3000"
+  },
+  "keywords": ["disposisi", "surat", "form"],
+  "author": "@hidayatrahmat",
+  "license": "MIT",
+  "devDependencies": {},
+  "dependencies": {}
+}
